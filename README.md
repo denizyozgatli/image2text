@@ -1,6 +1,6 @@
-# Image2Text with Gemini API
+# Image2Text
 
-Bu proje, Google Gemini API kullanarak yerel veya URL üzerinden sağlanan bir görselden metin çıkarmayı sağlar.
+Bu proje, API kullanarak yerel veya URL üzerinden sağlanan bir görselden metin çıkarmayı sağlar.
 
 ## Kurulum
 
