@@ -30,7 +30,7 @@ elif source_option == 'URL ile Belirt':
 
 if st.button("Metni Çıkar", type="primary"):
     if image_file:
-        st.image(image_file, caption="Yüklenen Resim", use_column_width=True)
+        st.image(image_file, caption="Yüklenen Resim", use_container_width=True)
         with st.spinner('Metin çıkarılıyor, lütfen bekleyin...'):
             extracted_text = extractor.extract_text(image_file)
             
@@ -47,7 +47,7 @@ if st.button("Metni Çıkar", type="primary"):
     elif image_url:
         with st.spinner('URL\'den resim indiriliyor ve metin çıkarılıyor...'):
             try:
-                st.image(image_url, caption="URL'den Gelen Resim", use_column_width=True)
+                st.image(image_url, caption="URL'den Gelen Resim", use_container_width=True)
                 extracted_text = extractor.extract_text(image_url)
 
                 st.subheader("Çıkarılan Metin:")
