@@ -1,23 +1,19 @@
-import os
-import re
 import requests
 from io import BytesIO
 from PIL import Image
-from datetime import datetime
 import google.generativeai as genai
-from dotenv import load_dotenv
-
-load_dotenv()
 
 class ImageTextExtractor:
-    def __init__(self, model_name='gemini-1.5-flash'):
-        self.api_key = os.getenv("GOOGLE_API_KEY")
-        if not self.api_key:
-            raise ValueError("Hata: GOOGLE_API_KEY ortam değişkeni bulunamadı.")
+    def __init__(self, api_key):
+        if not api_key:
+            raise ValueError("Hata: GOOGLE_API_KEY sağlanmadı.")
+        self.api_key = api_key
         genai.configure(api_key=self.api_key)
-        self.model = genai.GenerativeModel(model_name)
+        self.model = genai.GenerativeModel('gemini-1.5-flash')
 
     def _clean_extracted_text(self, text, user_prompt):
+        # Bu fonksiyon aynı kalabilir, içeriğini buraya kopyalamadım.
+        # Sizdeki mevcut _clean_extracted_text fonksiyonunu burada tutun.
         if text.startswith(user_prompt):
             text = text[len(user_prompt):].strip()
 
@@ -63,40 +59,32 @@ class ImageTextExtractor:
 
         return "\n".join(cleaned_lines)
 
-    def _load_image(self, path_or_url):
+
+    def _load_image(self, path_or_url_or_bytes):
         headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                      "AppleWebKit/537.36 (KHTML, like Gecko) "
-                      "Chrome/114.0.0.0 Safari/537.36"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
         }
 
-        if path_or_url.startswith("http://") or path_or_url.startswith("https://"):
-            response = requests.get(path_or_url, headers=headers)
-            if response.status_code != 200:
-                raise ValueError(f"URL'den görsel alınamadı: HTTP {response.status_code}")
-            img = Image.open(BytesIO(response.content))
-            filename = path_or_url.split("/")[-1].split("?")[0]
-            base_filename = re.sub(r'[^\w\-_.]', '_', filename)
+        if isinstance(path_or_url_or_bytes, str):
+            path_or_url = path_or_url_or_bytes
+            if path_or_url.startswith("http://") or path_or_url.startswith("https://"):
+                response = requests.get(path_or_url, headers=headers)
+                response.raise_for_status()
+                img = Image.open(BytesIO(response.content))
+            else:
+                img = Image.open(path_or_url)
         else:
-            img = Image.open(path_or_url)
-            base_filename = os.path.splitext(os.path.basename(path_or_url))[0]
-        return img, base_filename
+            img = Image.open(path_or_url_or_bytes)
+            
+        return img
 
-    def extract_text(self, image_path_or_url):
+    def extract_text(self, image_input):
         user_prompt = "Bu resimdeki tüm metni çıkar."
 
-        img, base_filename = self._load_image(image_path_or_url)
-        print("Görsel yüklendi. Metin çıkarılıyor...")
-
+        img = self._load_image(image_input)
+        
         response = self.model.generate_content([user_prompt, img])
         extracted_text = response.text
         cleaned_text = self._clean_extracted_text(extracted_text, user_prompt)
 
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_filename = f"{base_filename}_extracted_text_{timestamp}.txt"
-
-        with open(output_filename, "w", encoding="utf-8") as f:
-            f.write(cleaned_text)
-
-        print(f"Metin başarıyla kaydedildi: {output_filename}")
-        return output_filename
+        return cleaned_text
