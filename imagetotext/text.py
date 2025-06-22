@@ -12,14 +12,13 @@ class ImageTextExtractor:
         self.model = genai.GenerativeModel('gemini-1.5-flash')
 
     def _clean_extracted_text(self, text, user_prompt):
-        # Bu fonksiyon aynı kalabilir, içeriğini buraya kopyalamadım.
-        # Sizdeki mevcut _clean_extracted_text fonksiyonunu burada tutun.
         if text.startswith(user_prompt):
             text = text[len(user_prompt):].strip()
 
         common_starters = [
             "İşte metnin tamamı:", "Metin aşağıdadır:",
             "Resimdeki metin:", "Metin:", "İşte metin:",
+            "İşte resimdeki metnin tam transkripsiyonu:",
             "Aşağıdaki metin resimde yer almaktadır:",
             "Burada resimden çıkarılan metin var:",
             "Görseldeki metin:", "Resimden çıkarılan metin:",
