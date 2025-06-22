@@ -34,7 +34,7 @@ class ImageTextExtractor:
             "İşte verilen resimdeki metnin tam transkripsiyonu:", "İşte istediğiniz metin:",
             "Elbette, istediğiniz metni size verebilirim:", "Elbette, işte istediğiniz metin:",
             "İşte resmin metin dökümü:", "Elbette, resmin tamamındaki metni şöyle alıyorum:",
-            "İşte resmin tamamının metin yazısı:", "İşte görüntüdeki metin:"
+            "İşte resmin tamamının metin yazısı:", "İşte görüntüdeki metin:", "İşte resmindeki tüm metin:"
         ]
 
         for starter in common_starters:
