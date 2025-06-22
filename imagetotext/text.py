@@ -28,7 +28,7 @@ class ImageTextExtractor:
             "Tamam. İşte resimdeki metin:", "Transkript:", "Metin çıktı:", "Yazı:",
             "Resimdeki metin şu şekildedir:", "Resimde şu metin bulunmaktadır:",
             "İstediğiniz gibi, işte resimdeki metin:", "İşte resimdeki tüm metin:",
-            "Resimden başarıyla çıkarılan metin:", "Görüntüden alınan metin:",
+            "Resimden başarıyla çıkarılan metin:", "Görüntüden alınan metin:", "İşte metnin tam listesi:",
             "Resimdeki yazılar:", "İşte verilen görüntünün metni:", "İşte resmin metin çıktısı:",
             "İşte resmin metninin transkripsiyonu:", "İşte resimdeki metnin tamamı:",
             "İşte verilen resimdeki metnin tam transkripsiyonu:", "İşte istediğiniz metin:",
