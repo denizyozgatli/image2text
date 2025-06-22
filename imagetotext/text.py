@@ -16,7 +16,7 @@ class ImageTextExtractor:
             text = text[len(user_prompt):].strip()
 
         common_starters = [
-            "İşte metnin tamamı:", "Metin aşağıdadır:",
+            "İşte metnin tamamı:", "Metin aşağıdadır:", "Elbette, resimdeki metin şu şekildedir:",
             "Resimdeki metin:", "Metin:", "İşte metin:",
             "İşte resimdeki metnin tam transkripsiyonu:",
             "Aşağıdaki metin resimde yer almaktadır:",
